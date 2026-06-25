@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Deadly Sins of Time Travel</title>
+<style>
+  /* Define Theme Variables */
+  :root {
+	--bg-color: #f0f2f5;
+	--text-color: #333333;
+	--heading-color: #2c3e50;
+	--subtitle-color: #64748b;
+	--card-bg: #ffffff;
+	--card-shadow: rgba(0, 0, 0, 0.05);
+	--card-shadow-hover: rgba(0, 0, 0, 0.1);
+	--card-heading: #4a5568;
+	--svg-border: #e2e8f0;
+	--svg-bg: #fafafa;
+	--toggle-bg: #e2e8f0;
+	--toggle-btn: #4f46e5;
+  }
+
+  [data-theme="dark"] {
+	--bg-color: #0f172a;
+	--text-color: #cbd5e1;
+	--heading-color: #f8fafc;
+	--subtitle-color: #94a3b8;
+	--card-bg: #1e293b;
+	--card-shadow: rgba(0, 0, 0, 0.3);
+	--card-shadow-hover: rgba(0, 0, 0, 0.5);
+	--card-heading: #e2e8f0;
+	--svg-border: #334155;
+	--svg-bg: #0f172a;
+	--toggle-bg: #334155;
+	--toggle-btn: #38bdf8;
+  }
+
+  body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: var(--bg-color);
+	margin: 0;
+	padding: 60px 20px 40px 20px;
+	color: var(--text-color);
+	transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* Theme Toggle Button Layout */
+  .theme-toggle-container {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+  }
+
+  .theme-toggle-btn {
+	background: var(--toggle-bg);
+	color: var(--text-color);
+	border: none;
+	padding: 8px 16px;
+	border-radius: 20px;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 0.85rem;
+	transition: background 0.3s ease, color 0.3s ease;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+	text-align: center;
+	margin-bottom: 10px;
+	color: var(--heading-color);
+  }
+
+  .subtitle {
+	text-align: center;
+	color: var(--subtitle-color);
+	margin-bottom: 40px;
+	font-size: 1.1rem;
+  }
+
+  .grid-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 30px;
+	max-width: 1200px;
+	margin: 0 auto;
+  }
+
+  .shape-card {
+	background: var(--card-bg);
+	border-radius: 12px;
+	padding: 20px;
+	box-shadow: 0 4px 12px var(--card-shadow);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	cursor: help;
+  }
+
+  .shape-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 24px var(--card-shadow-hover);
+  }
+
+  h3 {
+	margin: 0 0 15px 0;
+	font-size: 1.1rem;
+	color: var(--card-heading);
+	align-self: flex-start;
+	border-left: 4px solid var(--toggle-btn);
+	padding-left: 10px;
+  }
+
+  svg {
+	border: 1px solid var(--svg-border);
+	border-radius: 8px;
+	background: var(--svg-bg);
+	width: 100%;
+	max-width: 300px;
+	height: 200px;
+	transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Tooltip Styling */
+  .tooltip {
+	visibility: hidden;
+	opacity: 0;
+	width: 280px;
+	background-color: #020617;
+	color: #f8fafc;
+	text-align: left;
+	border-radius: 8px;
+	padding: 14px;
+	position: absolute;
+	z-index: 10;
+	bottom: 102%; 
+	left: 50%;
+	transform: translateX(-50%) translateY(10px);
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+	transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+	font-size: 0.85rem;
+	line-height: 1.4;
+	pointer-events: none;
+	border: 1px solid #334155;
+  }
+
+  .tooltip::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -6px;
+	border-width: 6px;
+	border-style: solid;
+	border-color: #020617 transparent transparent transparent;
+  }
+
+  .shape-card:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+  }
+  
+  .tooltip strong {
+	color: #38bdf8;
+	display: block;
+	margin-bottom: 4px;
+	font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="theme-toggle-container">
+  <button class="theme-toggle-btn" id="themeToggle">🌙 Dark Mode</button>
+</div>
+
+<h1>7 Deadly Sins of Time Travel</h1>
+<p class="subtitle">Hover over any chronological hazard to examine its paradoxical risk.</p>
+
+<div class="grid-container">
+
+  <div class="shape-card">
+	<h3>1. Pride (Hubris of the Straight Line)</h3>
+	<svg viewBox="0 0 300 200">
+	  <line x1="30" y1="100" x2="270" y2="100" stroke="#4f46e5" stroke-width="6" stroke-linecap="round"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Absolute Determinism Fallacy</strong>
+	  Believing you can travel back over a rigid, single line and change an event without rewriting your own motivations for going back in the first place.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>2. Envy (The Fractured Splinter)</h3>
+	<svg viewBox="0 0 300 200">
+	  <line x1="150" y1="170" x2="150" y2="120" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round"/>
+	  <line x1="150" y1="120" x2="100" y2="80" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+	  <line x1="150" y1="120" x2="200" y2="80" stroke="#10b981" stroke-width="6" stroke-linecap="round"/>
+	  <line x1="100" y1="80" x2="70" y2="40" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+	  <line x1="100" y1="80" x2="120" y2="40" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+	  <line x1="200" y1="80" x2="180" y2="40" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+	  <line x1="200" y1="80" x2="230" y2="40" stroke="#059669" stroke-width="4" stroke-linecap="round"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Multiverse Splinter</strong>
+	  Envying a better reality and altering the past, only to spawn a new branch. You remain trapped in your original timeline, having saved a version of "you" that isn't you.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>3. Greed (The Endless Bootstrap)</h3>
+	<svg viewBox="0 0 300 200">
+	  <circle cx="150" cy="100" r="55" fill="none" stroke="#f59e0b" stroke-width="16"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Ontological Loop</strong>
+	  Stealing ideas or artifacts from the future to invent them in the past. Information endlessly loops with no true origin point, defying entropy.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>4. Wrath (The Butterfly Echo)</h3>
+	<svg viewBox="0 0 300 200">
+	  <path d="M50 100 C80 40, 100 40, 120 100 C140 160, 160 160, 180 100 C200 40, 220 40, 250 100" 
+		  fill="none" stroke="#ec4899" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Amplified Chaos Wave</strong>
+	  Striking back at a past enemy or event, sending catastrophic ripples forward that radically deform the future in unpredictable, oscillating waves.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>5. Sloth (The Causal Grandfather Knot)</h3>
+	<svg viewBox="0 0 300 200">
+	  <path d="M 150 45 
+			 C  110  25,  60  75,  95 125 
+			 C 130 175, 170 175, 205 125 
+			 C 240  75, 190  25, 150  45 
+			 C 110  65, 110 135, 150 135
+			 C 190 135, 190  65, 150  45" 
+		  fill="none" stroke="#06b6d4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Self-Canceling Snarl</strong>
+	  Failing to do your baseline temporal maintenance, creating a paradox where you delete your own ancestry and tie reality into an unresolvable logical knot.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>6. Gluttony (The Ouroboros Feast)</h3>
+	<svg viewBox="0 0 300 200">
+	  <path d="M 150 100 
+			 C 110 50,  60 50,  60 100 
+			 C  60 150, 110 150, 150 100 
+			 C 190 50,  240 50,  240 100 
+			 C 240 150, 190 150, 150 100 
+			 Z" 
+		  fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Infinity Paradox</strong>
+	  Consuming your own future resources to feed your past self, forcing reality to fold back into a figure-eight loop that eats its own tail forever.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>7. Lust (The Tangled Mesh)</h3>
+	<svg viewBox="0 0 300 200">
+	  <line x1="60" y1="30" x2="60" y2="170" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="105" y1="30" x2="105" y2="170" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="150" y1="30" x2="150" y2="170" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="195" y1="30" x2="195" y2="170" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="240" y1="30" x2="240" y2="170" stroke="#94a3b8" stroke-width="2"/>
+
+	  <line x1="40" y1="50" x2="260" y2="50" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="40" y1="83" x2="260" y2="83" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="40" y1="116" x2="260" y2="116" stroke="#94a3b8" stroke-width="2"/>
+	  <line x1="40" y1="150" x2="260" y2="150" stroke="#94a3b8" stroke-width="2"/>
+	</svg>
+	<div class="tooltip">
+	  <strong>The Reality Overlap Grid</strong>
+	  An obsession with manipulating multiple timelines at once, leading to overlapping dimensions that collapse into an unstable matrix.
+	</div>
+  </div>
+
+</div>
+
+<script>
+  const toggleBtn = document.getElementById('themeToggle');
+  
+  toggleBtn.addEventListener('click', () => {
+	const currentTheme = document.documentElement.getAttribute('data-theme');
+	if (currentTheme === 'dark') {
+	  document.documentElement.setAttribute('data-theme', 'light');
+	  toggleBtn.innerHTML = '🌙 Dark Mode';
+	} else {
+	  document.documentElement.setAttribute('data-theme', 'dark');
+	  toggleBtn.innerHTML = '☀️ Light Mode';
+	}
+  });
+</script>
+
+</body>
+</html>
