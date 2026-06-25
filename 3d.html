@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Deadly Sins of Time Travel - Infinite Rotations</title>
+<style>
+  :root {
+	--bg-color: #0f172a;
+	--text-color: #cbd5e1;
+	--heading-color: #f8fafc;
+	--subtitle-color: #94a3b8;
+	--card-bg: #1e293b;
+	--card-shadow: rgba(0, 0, 0, 0.3);
+	--card-shadow-hover: rgba(0, 0, 0, 0.5);
+	--card-heading: #e2e8f0;
+	--canvas-border: #334155;
+	--canvas-bg: #0f172a;
+	--accent: #38bdf8;
+  }
+
+  body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: var(--bg-color);
+	margin: 0;
+	padding: 40px 20px;
+	color: var(--text-color);
+  }
+
+  h1 {
+	text-align: center;
+	margin-bottom: 10px;
+	color: var(--heading-color);
+  }
+
+  .subtitle {
+	text-align: center;
+	color: var(--subtitle-color);
+	margin-bottom: 40px;
+	font-size: 1.1rem;
+  }
+
+  .grid-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 30px;
+	max-width: 1400px;
+	margin: 0 auto;
+  }
+
+  .shape-card {
+	background: var(--card-bg);
+	border-radius: 12px;
+	padding: 20px;
+	box-shadow: 0 4px 12px var(--card-shadow);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+
+  .shape-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 24px var(--card-shadow-hover);
+  }
+
+  h3 {
+	margin: 0 0 15px 0;
+	font-size: 1.1rem;
+	color: var(--card-heading);
+	align-self: flex-start;
+	border-left: 4px solid var(--accent);
+	padding-left: 10px;
+	width: 100%;
+  }
+
+  .canvas-container {
+	width: 100%;
+	height: 250px;
+	border: 1px solid var(--canvas-border);
+	border-radius: 8px;
+	background: var(--canvas-bg);
+	overflow: hidden;
+	cursor: grab;
+  }
+  
+  .canvas-container:active {
+	cursor: grabbing;
+  }
+
+  .description {
+	font-size: 0.85rem;
+	line-height: 1.4;
+	margin-top: 15px;
+	color: var(--subtitle-color);
+  }
+
+  .description strong {
+	color: var(--accent);
+	display: block;
+	margin-bottom: 4px;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+<h1>7 Deadly Sins of Time Travel</h1>
+<p class="subtitle">Infinite Length Mode: Profiles extended infinitely along the Y-axis with vertical animation</p>
+
+<div class="grid-container">
+
+  <div class="shape-card">
+	<h3>1. Pride (Hubris of the Straight Line)</h3>
+	<div class="canvas-container" id="canvas-pride"></div>
+	<div class="description">
+	  <strong>The Infinite Cylinder</strong>
+	  An endless, seamless pipe extending into parallel infinity without beginning or end.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>2. Envy (The Fractured Splinter)</h3>
+	<div class="canvas-container" id="canvas-envy"></div>
+	<div class="description">
+	  <strong>The Infinite Concentric Flared Shells</strong>
+	  Branching layers that stretch endlessly outward into separate cosmic horizons.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>3. Greed (The Endless Bootstrap)</h3>
+	<div class="canvas-container" id="canvas-greed"></div>
+	<div class="description">
+	  <strong>The Infinite Corrugated Conduit</strong>
+	  The circle profile repeating endlessly up and down to form an infinite flexible pipeline.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>4. Wrath (The Butterfly Echo)</h3>
+	<div class="canvas-container" id="canvas-wrath"></div>
+	<div class="description">
+	  <strong>The Perpetual Chaos Flute</strong>
+	  An endless wave pattern oscillating along the vertical plane forever.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>5. Sloth (The Causal Grandfather Knot)</h3>
+	<div class="canvas-container" id="canvas-sloth"></div>
+	<div class="description">
+	  <strong>The Infinite Interlocking Cage</strong>
+	  A knotted mesh profile pulled through space to form infinite nested structural columns.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>6. Gluttony (The Ouroboros Feast)</h3>
+	<div class="canvas-container" id="canvas-gluttony"></div>
+	<div class="description">
+	  <strong>The Infinite Hourglass Loom</strong>
+	  Parametric loops repeating infinitely to form self-intersecting double-cone bottlenecks.
+	</div>
+  </div>
+
+  <div class="shape-card">
+	<h3>7. Lust (The Tangled Mesh)</h3>
+	<div class="canvas-container" id="canvas-lust"></div>
+	<div class="description">
+	  <strong>The Eternal Matrix Cooling Column</strong>
+	  An endless structural grid forming an infinite complex of cooling fins and concentric layers.
+	</div>
+  </div>
+
+</div>
+
+<script>
+  const create3DScene = (containerId, pointsArray, color) => {
+	const container = document.getElementById(containerId);
+	const width = container.clientWidth;
+	const height = container.clientHeight;
+
+	const scene = new THREE.Scene();
+	scene.background = new THREE.Color(0x0f172a);
+
+	// Using a tight camera clipping frame to enhance the "infinite" look
+	const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 500);
+	camera.position.set(0, 0, 140);
+
+	const renderer = new THREE.WebGLRenderer({ antialias: true });
+	renderer.setSize(width, height);
+	container.appendChild(renderer.domElement);
+
+	const controls = new THREE.OrbitControls(camera, renderer.domElement);
+	controls.enableDamping = true;
+	controls.dampingFactor = 0.05;
+	controls.enableZoom = false; // Disabled zoom to preserve infinite viewport trick
+
+	const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+	scene.add(ambientLight);
+	const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+	dirLight1.position.set(1, 1, 1).normalize();
+	scene.add(dirLight1);
+	const dirLight2 = new THREE.DirectionalLight(color, 0.6);
+	dirLight2.position.set(-1, -1, -1).normalize();
+	scene.add(dirLight2);
+
+	// Extrude profile 360 degrees
+	const geometry = new THREE.LatheGeometry(pointsArray, 64, 0, Math.PI * 2);
+	
+	const material = new THREE.MeshStandardMaterial({
+	  color: color,
+	  roughness: 0.3,
+	  metalness: 0.3,
+	  side: THREE.DoubleSide
+	});
+
+	const mesh = new THREE.Mesh(geometry, material);
+	scene.add(mesh);
+
+	// Animation Loop
+	const animate = () => {
+	  requestAnimationFrame(animate);
+	  mesh.rotation.y += 0.005; // Spin on axis
+	  
+	  // Infinite scrolling effect: translates down, then snaps back seamlessly
+	  mesh.position.y -= 0.2;
+	  if (mesh.position.y <= -100) {
+		mesh.position.y = 0;
+	  }
+
+	  controls.update();
+	  renderer.render(scene, camera);
+	};
+	animate();
+
+	window.addEventListener('resize', () => {
+	  const w = container.clientWidth;
+	  const h = container.clientHeight;
+	  camera.aspect = w / h;
+	  camera.updateProjectionMatrix();
+	  renderer.setSize(w, h);
+	});
+  };
+
+  // --- GENERATING THE INFINITE PROFILES (Extended from Y = -200 to Y = 200) ---
+
+  // 1. Pride - Infinite Cylinder
+  const pointsPride = [
+	new THREE.Vector2(30, -200),
+	new THREE.Vector2(30, 200)
+  ];
+  create3DScene('canvas-pride', pointsPride, 0x4f46e5);
+
+  // 2. Envy - Infinite Flared Concentric Tubes
+  const pointsEnvy = [];
+  for(let y = -200; y <= 200; y += 5) {
+	let x = 20 + (Math.abs(y) * 0.15) + (y % 20 === 0 ? 5 : 0);
+	pointsEnvy.push(new THREE.Vector2(x, y));
+  }
+  create3DScene('canvas-envy', pointsEnvy, 0x10b981);
+
+  // 3. Greed - Infinite Corrugated Tube (Repeated Circles)
+  const pointsGreed = [];
+  for (let y = -200; y <= 200; y += 2) {
+	let x = 40 + Math.sin(y * 0.2) * 10;
+	pointsGreed.push(new THREE.Vector2(x, y));
+  }
+  create3DScene('canvas-greed', pointsGreed, 0xf59e0b);
+
+  // 4. Wrath - Infinite Chaos Wave
+  const pointsWrath = [];
+  for (let y = -200; y <= 200; y += 2) {
+	let x = 35 + Math.sin(y * 0.1) * 15 + Math.cos(y * 0.05) * 5;
+	pointsWrath.push(new THREE.Vector2(x, y));
+  }
+  create3DScene('canvas-wrath', pointsWrath, 0xec4899);
+
+  // 5. Sloth - Infinite Interlocking Loops
+  const pointsSloth = [];
+  for(let y = -200; y <= 200; y += 4) {
+	let x1 = 30 + Math.sin(y * 0.05) * 12;
+	pointsSloth.push(new THREE.Vector2(x1, y));
+  }
+  create3DScene('canvas-sloth', pointsSloth, 0x06b6d4);
+
+  // 6. Gluttony - Infinite Hourglass Channels
+  const pointsGluttony = [];
+  for (let y = -200; y <= 200; y += 2) {
+	let x = 40 + (Math.sin(y * 0.08) * Math.cos(y * 0.08)) * 25;
+	pointsGluttony.push(new THREE.Vector2(Math.abs(x), y));
+  }
+  create3DScene('canvas-gluttony', pointsGluttony, 0x3b82f6);
+
+  // 7. Lust - Infinite Concentric Grid Matrix
+  const pointsLust = [];
+  for (let y = -200; y <= 200; y += 10) {
+	pointsLust.push(new THREE.Vector2(20, y));
+	pointsLust.push(new THREE.Vector2(40, y));
+	pointsLust.push(new THREE.Vector2(40, y + 5));
+	pointsLust.push(new THREE.Vector2(20, y + 5));
+  }
+  create3DScene('canvas-lust', pointsLust, 0x94a3b8);
+
+</script>
+</body>
+</html>
