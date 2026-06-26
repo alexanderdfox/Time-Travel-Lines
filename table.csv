@@ -1,0 +1,8 @@
+Rank,Pipe,Suitability,Why
+1,Pride,Excellent,"Smooth, straight bore → minimal turbulence, lowest pressure drop, best flow rate. Ideal for tubing or water block channels."
+2,Lust,Good (if heat exchanger),"Core tube is reasonably smooth + massive external surface area from fins/grid. Great for a radiator section or block exterior, but more restrictive than Pride internally."
+3,Sloth,Moderate,"Has a solid core tube, but the helical cage + rings add complexity/possible weak points for sealing. Extra surface area is nice but flow is compromised."
+4,Envy,Poor,Concentric flared/twisted shells will create turbulence and dead zones. Hard to print/seal cleanly.
+5,Greed,Poor,Corrugated walls create constant turbulence and higher friction → significantly worse flow.
+6,Wrath,Bad,Chaotic waving path = very long effective length + sharp direction changes → high pressure drop and turbulence.
+7,Gluttony,Worst,Hourglass constrictions repeatedly narrow the bore → massive flow restriction and pressure spikes. Pump would hate this.
