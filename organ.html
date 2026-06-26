@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Time Travel Organ • 7 Deadly Pipes</title>
+<style>
+	body {
+		font-family: 'Courier New', monospace;
+		background: #0a0a0a;
+		color: #ddd;
+		margin: 0;
+		padding: 20px;
+		text-align: center;
+	}
+	h1 {
+		color: #ffcc00;
+		text-shadow: 0 0 15px #ffcc00;
+		margin-bottom: 10px;
+	}
+	.container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 20px;
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+	.pipe {
+		background: #1a1a1a;
+		border: 3px solid;
+		border-radius: 12px;
+		padding: 15px;
+		transition: all 0.3s;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+	.pipe:hover { transform: scale(1.03); }
+	.pipe.playing { box-shadow: 0 0 30px; animation: glow 0.8s infinite alternate; }
+
+	.pride   { border-color: silver; }
+	.envy    { border-color: gold; }
+	.greed   { border-color: orange; }
+	.wrath   { border-color: red; }
+	.sloth   { border-color: purple; }
+	.gluttony{ border-color: lime; }
+	.lust    { border-color: cyan; }
+
+	.visual {
+		height: 220px;
+		background: #111;
+		border-radius: 8px;
+		margin: 10px 0;
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.label {
+		font-size: 1.4em;
+		margin: 8px 0;
+		text-transform: uppercase;
+		letter-spacing: 3px;
+	}
+	button {
+		padding: 12px 24px;
+		font-size: 1em;
+		background: #222;
+		color: inherit;
+		border: 2px solid;
+		cursor: pointer;
+		margin-top: 10px;
+	}
+	.info { font-size: 0.9em; opacity: 0.8; }
+	
+	@keyframes glow {
+		from { box-shadow: 0 0 20px; }
+		to   { box-shadow: 0 0 40px; }
+	}
+</style>
+</head>
+<body>
+
+<h1>TIME TRAVEL ORGAN</h1>
+<p style="margin-bottom:30px;">7 Deadly Pipes • Click or tap to play</p>
+
+<div class="container" id="pipes"></div>
+
+<script>
+// Web Audio API
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+const pipes = [
+	{ name: "PRIDE",   color: "silver",  type: "sine",     baseFreq: 220, desc: "Clean Infinite Cylinder" },
+	{ name: "ENVY",    color: "gold",    type: "triangle", baseFreq: 277, desc: "Concentric Flared Shells" },
+	{ name: "GREED",   color: "orange",  type: "sawtooth", baseFreq: 330, desc: "Corrugated Conduit" },
+	{ name: "WRATH",   color: "red",     type: "square",   baseFreq: 415, desc: "Chaotic Waving Tube" },
+	{ name: "SLOTH",   color: "purple",  type: "sine",     baseFreq: 247, desc: "Interlocking Helical Cage" },
+	{ name: "GLUTTONY",color: "lime",    type: "sawtooth", baseFreq: 392, desc: "Alternating Hourglass" },
+	{ name: "LUST",    color: "cyan",    type: "triangle", baseFreq: 523, desc: "Matrix Finned Column" }
+];
+
+pipes.forEach((pipe, index) => {
+	const div = document.createElement('div');
+	div.className = `pipe ${pipe.name.toLowerCase()}`;
+	div.innerHTML = `
+		<div class="visual" id="vis-${index}">
+			<!-- Simple CSS pipe visuals -->
+			<div style="width:60px; height:200px; background:linear-gradient(#333, #666); border:4px solid ${pipe.color}; border-radius:30px; position:relative; box-shadow:0 0 20px ${pipe.color};">
+				<div style="position:absolute; top:20px; left:50%; transform:translateX(-50%); width:30px; height:30px; background:#111; border-radius:50%; border:3px solid ${pipe.color};"></div>
+			</div>
+		</div>
+		<div class="label" style="color:${pipe.color}">${pipe.name}</div>
+		<div class="info">${pipe.desc}</div>
+		<button style="border-color:${pipe.color}; color:${pipe.color}">PLAY NOTE</button>
+	`;
+
+	div.onclick = () => playPipe(pipe, index);
+	document.getElementById('pipes').appendChild(div);
+});
+
+function playPipe(pipe, index) {
+	const vis = document.getElementById(`vis-${index}`);
+	vis.classList.add('playing');
+	
+	// Create oscillator
+	const osc = audioCtx.createOscillator();
+	const gain = audioCtx.createGain();
+	const filter = audioCtx.createBiquadFilter();
+	
+	osc.type = pipe.type;
+	osc.frequency.setValueAtTime(pipe.baseFreq, audioCtx.currentTime);
+	
+	// Organ-like filtering
+	filter.type = 'lowpass';
+	filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+	
+	gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+	gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.8);
+	
+	osc.connect(filter).connect(gain).connect(audioCtx.destination);
+	osc.start();
+	osc.stop(audioCtx.currentTime + 3);
+	
+	// Visual feedback
+	setTimeout(() => {
+		vis.classList.remove('playing');
+	}, 2800);
+}
+
+// Keyboard support (1-7 keys)
+document.addEventListener('keydown', e => {
+	if (e.key >= '1' && e.key <= '7') {
+		const index = parseInt(e.key) - 1;
+		if (pipes[index]) playPipe(pipes[index], index);
+	}
+});
+</script>
+
+<p style="margin-top:40px; opacity:0.6;">
+	Press <strong>1</strong> to <strong>7</strong> on keyboard • Each pipe has its own waveform and pitch
+</p>
+
+</body>
+</html>
